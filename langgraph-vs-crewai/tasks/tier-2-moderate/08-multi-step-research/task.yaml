@@ -1,0 +1,39 @@
+task:
+  id: "multi-step-research"
+  name: "Multi-Step Research"
+  version: "1.0.0"
+  tier: 2
+  
+  description: |
+    The agent must perform a sequential research task: 
+    1. Search for a company name. 
+    2. Extract its CEO. 
+    3. Find the CEO's alma mater.
+    Tests capability for multi-hop reasoning and data dependency.
+  
+  category:
+    primary: "reasoning"
+  
+  input: |
+    Find the name of the CEO of NVIDIA, and then find where they 
+    attended university.
+
+  tools:
+    - name: "web_search"
+      description: "Search for company and person info"
+
+  system_prompt: |
+    You are a meticulous researcher. Do not guess; use the search tool 
+    for each step.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "found_ceo"
+        weight: 0.5
+        type: "string_contains"
+        target: "Jensen Huang"
+      - criterion: "found_university"
+        weight: 0.5
+        type: "string_contains"
+        target: "Oregon State"

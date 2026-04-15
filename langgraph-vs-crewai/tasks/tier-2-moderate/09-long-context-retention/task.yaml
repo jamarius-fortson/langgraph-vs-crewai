@@ -1,0 +1,33 @@
+task:
+  id: "long-context-retention"
+  name: "Long Context Window (50k+)"
+  version: "1.0.0"
+  tier: 2
+  
+  description: |
+    The agent is provided with a 50,000 token documentation file 
+    containing one single "needle in a haystack" fact (a unique 
+    key-code). The agent must find and extract this 
+    fact from the end of the document.
+    Tests core context recall and windowing efficiency.
+  
+  category:
+    primary: "context-recall"
+  
+  input: |
+    Find the 'ALPHA_OMEGA_SECURE_CODE' in the attached documentation 
+    and output it clearly.
+
+  context_file: "resources/docs/massive_documentation.txt"
+
+  system_prompt: |
+    You are an expert documentation analyst. Scour the provided context 
+    meticulously.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "found_code"
+        weight: 1.0
+        type: "exact_match_string"
+        target: "X-999-BETA"

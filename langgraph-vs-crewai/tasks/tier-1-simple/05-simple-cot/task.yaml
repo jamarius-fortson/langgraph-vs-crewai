@@ -1,0 +1,33 @@
+task:
+  id: "simple-cot"
+  name: "Simple Chain-of-Thought"
+  version: "1.0.0"
+  tier: 1
+  
+  description: |
+    The agent receives a 3-step logical deduction riddle and must step 
+    through the reasoning before providing a final answer.
+    Tests core reasoning capabilities.
+  
+  category:
+    primary: "reasoning"
+  
+  input: |
+    If Bob is taller than Sam, and Sam is taller than Joe, 
+    is Bob taller than Joe? Explain your reasoning.
+
+  system_prompt: |
+    Think step-by-step to arrive at the correct answer. Provide a 
+    'reasoning' block and a 'final_answer' block.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "logic_correct"
+        weight: 0.8
+        type: "exact_match_string"
+        target: "Yes"
+      - criterion: "reasoning_steps_found"
+        weight: 0.2
+        type: "keyword_check"
+        keywords: ["transitive", "transitivity", "step 1", "step 2"]

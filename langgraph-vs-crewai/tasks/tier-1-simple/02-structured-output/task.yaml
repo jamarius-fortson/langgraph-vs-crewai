@@ -1,0 +1,62 @@
+task:
+  id: "structured-output"
+  name: "Structured Output Extraction"
+  version: "1.0.0"
+  tier: 1
+  
+  description: |
+    The agent receives a receipt text and must extract specifically named 
+    fields (merchant, date, total, tax, items) and output them in a 
+    valid JSON structure.
+  
+  category:
+    primary: "structured-output"
+  
+  capabilities_tested:
+    - "structured_output"
+  
+  input_schema:
+    type: object
+    properties:
+      text:
+        type: string
+    required: ["text"]
+  
+  output_schema:
+    type: object
+    properties:
+      merchant:
+        type: string
+      date:
+        type: string
+      total:
+        type: number
+      tax:
+        type: number
+      items:
+        type: array
+        items:
+          type: object
+          properties:
+            name: {type: string}
+            price: {type: number}
+    required: ["merchant", "total", "items"]
+
+  system_prompt: |
+    You are a data extraction assistant. When given a receipt text, extract the 
+    merchant name, date, total amount, tax amount (if any), and list of items 
+    purchased. Return the result in a valid JSON format.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "exact_merchant"
+        weight: 0.3
+        type: "exact_match_string"
+      - criterion: "exact_total"
+        weight: 0.3
+        type: "exact_match_numeric"
+      - criterion: "valid_json"
+        weight: 0.4
+        type: "schema_validation"
+        schema_ref: "output_schema"

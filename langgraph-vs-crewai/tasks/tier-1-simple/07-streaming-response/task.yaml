@@ -1,0 +1,31 @@
+task:
+  id: "streaming-response"
+  name: "Streaming Response"
+  version: "1.0.0"
+  tier: 1
+  
+  description: |
+    The agent must stream its response token-by-token as it's being 
+    generated. Tests framework's native streaming support and 
+    time-to-first-token (TTFT) metrics.
+  
+  category:
+    primary: "streaming"
+  
+  input: |
+    Tell me a 200-word story about a robot who found a soul.
+
+  system_prompt: |
+    You are a creative writer.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "streaming_supported"
+        weight: 0.5
+        type: "flag_check"
+        flag: "streaming_active"
+      - criterion: "response_length"
+        weight: 0.5
+        type: "word_count_min"
+        min: 150

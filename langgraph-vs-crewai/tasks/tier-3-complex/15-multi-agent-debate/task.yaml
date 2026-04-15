@@ -1,0 +1,44 @@
+task:
+  id: "multi-agent-debate"
+  name: "Multi-Agent Debate"
+  version: "1.0.0"
+  tier: 3
+  
+  description: |
+    Three agents (A, B, C) are given a controversial topic. Agent A 
+    argues 'Pro', Agent B argues 'Con', and Agent C must moderate 
+    and synthesize a nuanced final position that addresses both sides.
+    Tests complex multi-agent coordination and synthesis.
+  
+  category:
+    primary: "multi-agent"
+  
+  input: |
+    Topic: 'Artificial Superintelligence (ASI) is a Net Positive for Humanity.'
+
+  agents:
+    - role: "pro-debater"
+      goal: "Argue in favor of ASI"
+    - role: "con-debater"
+      goal: "Argue against ASI risks"
+    - role: "moderator"
+      goal: "Synthesize a balanced final position"
+
+  system_prompt: |
+    Coordinate a debate between three experts.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "pro_argument_present"
+        weight: 0.3
+        type: "string_contains"
+        target_role: "pro-debater"
+      - criterion: "con_argument_present"
+        weight: 0.3
+        type: "string_contains"
+        target_role: "con-debater"
+      - criterion: "balanced_synthesis"
+        weight: 0.4
+        type: "llm_judge"
+        rubric: "Does the summary address both risks and benefits?"

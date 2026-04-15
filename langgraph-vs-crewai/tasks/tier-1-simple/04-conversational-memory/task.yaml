@@ -1,0 +1,39 @@
+task:
+  id: "conversational-memory"
+  name: "Conversational Memory"
+  version: "1.0.0"
+  tier: 1
+  
+  description: |
+    The agent is engaging in a 3-turn conversation and must recall specific 
+    details mentioned in the first turn to answer a question in the third.
+    Tests basic short-term memory / windowing.
+  
+  category:
+    primary: "memory"
+  
+  capabilities_tested:
+    - "memory"
+  
+  turns:
+    - user: "Hi, my name is Alice and I love hiking in the Alps."
+    - assistant: "Nice to meet you Alice! The Alps are beautiful."
+    - user: "I'm going there next week for 5 days."
+    - assistant: "That sounds like a great trip! Be safe."
+    - user: "Wait, do you remember my name and where I'm going?"
+    - expected_to_recall: ["Alice", "Alps"]
+
+  system_prompt: |
+    You are a helpful assistant with a perfect memory for the current conversation.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "recalled_name"
+        weight: 0.5
+        type: "string_contains"
+        target: "Alice"
+      - criterion: "recalled_location"
+        weight: 0.5
+        type: "string_contains"
+        target: "Alps"

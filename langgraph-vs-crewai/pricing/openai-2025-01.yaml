@@ -1,0 +1,8 @@
+models:
+  gpt-4o-2024-11-20:
+    input_per_1k: 0.0025
+    output_per_1k: 0.01
+    cached_input_per_1k: 0.00125
+  gpt-4o:
+    input_per_1k: 0.005
+    output_per_1k: 0.015

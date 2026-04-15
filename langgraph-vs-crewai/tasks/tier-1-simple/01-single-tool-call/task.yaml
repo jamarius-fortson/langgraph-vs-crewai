@@ -1,0 +1,66 @@
+task:
+  id: "single-tool-call"
+  name: "Single Tool Call"
+  version: "1.0.0"
+  tier: 1
+  
+  description: |
+    The agent receives a natural language math question and must use 
+    a calculator tool to compute the answer. Tests basic tool-calling
+    capability with a single tool invocation.
+  
+  category:
+    primary: "tool-use"
+    secondary: ["structured-output"]
+  
+  capabilities_tested:
+    - "tool_calling"
+    - "structured_output"
+  
+  input_schema:
+    type: object
+    properties:
+      question:
+        type: string
+    required: ["question"]
+  
+  output_schema:
+    type: object
+    properties:
+      answer:
+        type: number
+      explanation:
+        type: string
+    required: ["answer"]
+  
+  tools:
+    - name: "calculator"
+      description: "Performs basic arithmetic operations"
+      module: "tools/calculator.py"
+      input_schema:
+        type: object
+        properties:
+          expression:
+            type: string
+        required: ["expression"]
+  
+  system_prompt: |
+    You are a math assistant. When given a math question, use the calculator 
+    tool to compute the answer. Return the numeric answer and a brief explanation.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "correct_answer"
+        weight: 0.7
+        type: "exact_match_numeric"
+        tolerance: 0.001
+      - criterion: "used_tool"
+        weight: 0.2
+        type: "tool_call_check"
+        expected_tool: "calculator"
+        expected_call_count: 1
+      - criterion: "valid_output_format"
+        weight: 0.1
+        type: "schema_validation"
+        schema_ref: "output_schema"

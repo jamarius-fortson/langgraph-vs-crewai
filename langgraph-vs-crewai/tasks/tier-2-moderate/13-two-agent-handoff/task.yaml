@@ -1,0 +1,44 @@
+task:
+  id: "two-agent-handoff"
+  name: "Two-Agent Handoff"
+  version: "1.0.0"
+  tier: 2
+  
+  description: |
+    The agent receives a complex request that needs a researcher and a 
+    writer. Agent A must delegate the research subtask to Agent B and 
+    then use Agent B's output to compile the final answer.
+    Tests multi-agent delegation and handoff.
+  
+  category:
+    primary: "multi-agent"
+  
+  input: |
+    Research the top 3 AI trends of 2024 and write a short executive 
+    summary.
+
+  agents:
+    - role: "researcher"
+      goal: "Find 3 modern AI trends"
+      tools: ["web_search"]
+    - role: "writer"
+      goal: "Compose a professional executive summary"
+
+  system_prompt: |
+    You are a project manager coordinating two specialized agents.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "researcher_called"
+        weight: 0.4
+        type: "handoff_check"
+        target_role: "researcher"
+      - criterion: "writer_called"
+        weight: 0.4
+        type: "handoff_check"
+        target_role: "writer"
+      - criterion: "summary_present"
+        weight: 0.2
+        type: "keyword_check"
+        keywords: ["executive summary", "trends", "2024"]

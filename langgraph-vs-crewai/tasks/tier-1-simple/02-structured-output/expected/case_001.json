@@ -1,0 +1,10 @@
+{
+  "merchant": "COFFEE HOUSE",
+  "date": "2024-05-15",
+  "total": 8.91,
+  "tax": 0.66,
+  "items": [
+    {"name": "Latte", "price": 4.50},
+    {"name": "Croissant", "price": 3.75}
+  ]
+}

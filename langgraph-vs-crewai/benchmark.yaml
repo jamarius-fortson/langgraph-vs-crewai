@@ -1,0 +1,39 @@
+benchmark:
+  name: "langgraph-vs-crewai Benchmark Suite"
+  version: "1.0.0"
+
+execution:
+  default_iterations: 5
+  timeout_per_task: 300
+  warmup_runs: 1
+  cooldown_between_runs: 2
+  max_concurrent_frameworks: 1
+  randomize_task_order: true
+  randomize_framework_order: true
+
+llm:
+  provider: "openai"
+  model: "gpt-4o-2024-11-20"
+  temperature: 0.0
+  seed: 42
+  max_retries: 2
+  retry_delay: 5
+
+measurement:
+  token_counting: "tiktoken"
+  cost_model: "openai-2025-01"
+  latency_includes: "framework_overhead + llm_time + tool_time"
+  latency_excludes: "docker_startup + result_serialization"
+
+docker:
+  base_image: "python:3.11.7-slim-bookworm"
+  network: "benchmark-net"
+  memory_limit: "2g"
+  cpu_limit: "2.0"
+
+output:
+  raw_data: true
+  replay_bundle: true
+  statistical_summary: true
+  charts: true
+  markdown_report: true

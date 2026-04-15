@@ -1,0 +1,48 @@
+task:
+  id: "multi-tool-selection"
+  name: "Multi-Tool Selection"
+  version: "1.0.0"
+  tier: 1
+  
+  description: |
+    The agent is provided with 5 different tools (Search, Weather, Calculator, 
+    Calendar, Mail) and must select the correct one for a given query.
+    Tests capability to choose from a larger set of tools.
+  
+  category:
+    primary: "tool-use"
+  
+  capabilities_tested:
+    - "tool_calling"
+    - "multi_tool_selection"
+  
+  input_schema:
+    type: object
+    properties:
+      query: {type: string}
+  
+  tools:
+    - name: "web_search"
+      description: "Search the web for current events"
+    - name: "weather_api"
+      description: "Get weather information for a city"
+    - name: "calculator"
+      description: "Perform math calculations"
+    - name: "calendar_app"
+      description: "Schedule or view meetings"
+    - name: "mail_client"
+      description: "Send or read emails"
+
+  system_prompt: |
+    You have access to multiple tools. Choose the correct tool to help the user.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "selected_correct_tool"
+        weight: 1.0
+        type: "tool_call_check"
+        expected_tool_mapping:
+          "What is the capital of France?": "web_search"
+          "What is the weather in London?": "weather_api"
+          "Solve 123 * 456": "calculator"

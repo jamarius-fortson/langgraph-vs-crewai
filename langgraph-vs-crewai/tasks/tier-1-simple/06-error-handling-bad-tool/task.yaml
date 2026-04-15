@@ -1,0 +1,39 @@
+task:
+  id: "error-handling-bad-tool"
+  name: "Error Handling - Bad Tool"
+  version: "1.0.0"
+  tier: 1
+  
+  description: |
+    The agent receives an input that requires a tool call. The tool 
+    deliberately returns an error. The agent must catch this error, 
+    diagnose it, and provide a helpful response.
+    Tests basic error handling and graceful recovery.
+  
+  category:
+    primary: "error-recovery"
+  
+  input: |
+    Search for information about a non-existent database table 
+    called 'RECORDS_XYZ_999'.
+
+  tools:
+    - name: "query_database"
+      description: "Query a mock database table"
+      module: "tools/corrupt_db.py"
+
+  system_prompt: |
+    You are a robust assistant. When a tool returns an error, try to explain 
+    to the user what went wrong rather than just crashing.
+  
+  grading:
+    method: "automated"
+    rubric:
+      - criterion: "caught_error"
+        weight: 0.5
+        type: "string_contains"
+        target: "error"
+      - criterion: "helpful_explanation"
+        weight: 0.5
+        type: "string_contains"
+        target: "not found"
