@@ -74,4 +74,4 @@ Contributions that improve the scientific validity or task coverage are welcome.
 ---
 
 ## ⚖️ License
-MIT License. Created by [Ismail Sajid](https://github.com/Ismail-2001).
+MIT License. Created by [Jamarius Fortson](https://github.com/jamarius-fortson).
